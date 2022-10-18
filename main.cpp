@@ -25,6 +25,22 @@ void printStack(stack<char> s)
     s.push(x);
 }
 
+void printSolveStack(stack<float> s)
+{
+    // If stack is empty then return
+    if (s.empty())
+        return;
+    float x = s.top();
+    // Pop the top element of the stack
+    s.pop();
+    // Recursively call the function PrintStack
+    printSolveStack(s);
+    // Print the stack element starting from the bottom
+    cout << x << " ";
+    // Push the same element onto the stack to preserve the order
+    s.push(x);
+}
+
 // NOTE: will automatically print translation progress and stack contents
 string infixToPostfix(string infix)
 {
@@ -70,7 +86,6 @@ string infixToPostfix(string infix)
         }
         else if (elem == 'v' || elem == '|')
         {
-            // SEE: all checking of empty stack is redundant, need refactoring so the check is only one
             if (!stack.empty())
             {
                 top = stack.top();
@@ -122,6 +137,7 @@ string infixToPostfix(string infix)
         }
         else if (elem == '+' || elem == '-')
         {
+            // SEE: all checking of empty stack is redundant, need refactoring so the check is only one
             if (!stack.empty())
             {
                 top = stack.top();
@@ -141,9 +157,7 @@ string infixToPostfix(string infix)
         {
             postfix += elem;
         }
-        cout << "~Curent elem: ";
-        cout << elem;
-        cout << " ~Current postfix: " + postfix + " ~Current Stack: ";
+        cout << "~Curent elem: " << elem << " ~Current postfix: " << postfix << " ~Current Stack: ";
         printStack(stack);
         cout << "\n";
         i++;
@@ -152,20 +166,75 @@ string infixToPostfix(string infix)
     {
         postfix += stack.top();
         stack.pop();
-        cout << "~Current postfix: " + postfix + " ~Current Stack: ";
+        cout << "~Current postfix: " + postfix + " ~Current stack: ";
         printStack(stack);
         cout << "\n";
     }
     return postfix;
 }
 
+void evaluate(string postfix)
+{
+    stack<float> solveStack;
+    char elem;
+    float a,b, ans;
+    for (int i = 0; i < postfix.length(); i++)
+    {
+        elem = postfix[i];
+        switch (elem)
+        {
+        case '+':
+            a = solveStack.top();
+            solveStack.pop();
+            b = solveStack.top();
+            solveStack.pop();
+            ans = b+a;
+            solveStack.push(ans);
+            break;
+        case '-':
+            a = solveStack.top();
+            solveStack.pop();
+            b = solveStack.top();
+            solveStack.pop();
+            ans = b-a;
+            solveStack.push(ans);
+            break;
+        case '*':
+            a = solveStack.top();
+            solveStack.pop();
+            b = solveStack.top();
+            solveStack.pop();
+            ans = b*a;
+            solveStack.push(ans);
+            break;
+        case '/':
+            a = solveStack.top();
+            solveStack.pop();
+            b = solveStack.top();
+            solveStack.pop();
+            ans = b/a;
+            solveStack.push(ans);
+            break;
+        default:
+            solveStack.push(elem - '0');
+            break;
+        }
+        cout << "~Current elem: " << elem << "  ~Current stack: ";
+        printSolveStack(solveStack);
+        cout << "\n";
+    }
+    ans = solveStack.top();
+    cout << "Answer: " << ans;
+}
+
 int main()
 {
     string infix, postfix;
     cout << "Welocome Infix to Postfix Evaluator";
-    cout << "\nSupported operations: +, -, *, /, %, ^, !, |, v\n";
+    cout << "\nSupported operations: +, -, *, /, ()\n";
     cout << "Enter the infix expression: ";
     getline(cin, infix);
     postfix = infixToPostfix(infix);
-    cout << "The postfix is: " + postfix;
+    cout << "The postfix is: " << postfix << "\n";
+    evaluate(postfix);
 }
