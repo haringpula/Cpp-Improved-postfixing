@@ -8,6 +8,24 @@
 #include <stack>
 using namespace std;
 
+// from GeeksforGeeks.com
+void printStack(stack<char> s)
+{
+    // If stack is empty then return
+    if (s.empty())
+        return;
+    char x = s.top();
+    // Pop the top element of the stack
+    s.pop();
+    // Recursively call the function PrintStack
+    printStack(s);
+    // Print the stack element starting from the bottom
+    cout << x << " ";
+    // Push the same element onto the stack to preserve the order
+    s.push(x);
+}
+
+// NOTE: will automatically print translation progress and stack contents
 string infixToPostfix(string infix)
 {
     stack<char> stack;
@@ -18,6 +36,7 @@ string infixToPostfix(string infix)
     while (i < infix.length())
     {
         elem = infix[i];
+        // SEE: If else statements are the easiest way to compare same level tokens
         if (elem == '(')
         {
             stack.push(elem);
@@ -51,6 +70,7 @@ string infixToPostfix(string infix)
         }
         else if (elem == 'v' || elem == '|')
         {
+            // SEE: all checking of empty stack is redundant, need refactoring so the check is only one
             if (!stack.empty())
             {
                 top = stack.top();
@@ -64,7 +84,6 @@ string infixToPostfix(string infix)
                     }
                 }
             }
-
             stack.push(elem);
         }
         else if (elem == '^' || elem == '!')
@@ -82,7 +101,6 @@ string infixToPostfix(string infix)
                     }
                 }
             }
-
             stack.push(elem);
         }
         else if (elem == '*' || elem == '/' || elem == '%')
@@ -100,7 +118,6 @@ string infixToPostfix(string infix)
                     }
                 }
             }
-
             stack.push(elem);
         }
         else if (elem == '+' || elem == '-')
@@ -118,19 +135,26 @@ string infixToPostfix(string infix)
                     }
                 }
             }
-
             stack.push(elem);
         }
         else
         {
             postfix += elem;
         }
+        cout << "~Curent elem: ";
+        cout << elem;
+        cout << " ~Current postfix: " + postfix + " ~Current Stack: ";
+        printStack(stack);
+        cout << "\n";
         i++;
     }
     while (!stack.empty())
     {
         postfix += stack.top();
         stack.pop();
+        cout << "~Current postfix: " + postfix + " ~Current Stack: ";
+        printStack(stack);
+        cout << "\n";
     }
     return postfix;
 }
