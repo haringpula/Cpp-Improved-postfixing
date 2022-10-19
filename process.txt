@@ -1,0 +1,17 @@
+~Curent elem: 6 ~Current postfix: 6 ~Current Stack: 
+~Curent elem: / ~Current postfix: 6 ~Current Stack: / 
+~Curent elem: 2 ~Current postfix: 62 ~Current Stack: / 
+~Curent elem: ( ~Current postfix: 62 ~Current Stack: / ( 
+~Curent elem: 3 ~Current postfix: 623 ~Current Stack: / ( 
+~Curent elem: + ~Current postfix: 623 ~Current Stack: / ( + 
+~Curent elem: 3 ~Current postfix: 6233 ~Current Stack: / ( + 
+~Curent elem: ) ~Current postfix: 6233+ ~Current Stack: / * 
+~Current postfix: 6233+* ~Current stack: / 
+~Current postfix: 6233+*/ ~Current stack: 
+~Current elem: 6  ~Current stack: 6 
+~Current elem: 2  ~Current stack: 6 2 
+~Current elem: 3  ~Current stack: 6 2 3 
+~Current elem: 3  ~Current stack: 6 2 3 3 
+~Current elem: +  ~Current stack: 6 2 6 
+~Current elem: *  ~Current stack: 6 12 
+~Current elem: /  ~Current stack: 0.5 

@@ -4,9 +4,12 @@
  */
 
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <stack>
 using namespace std;
+
+ofstream file("process.txt");
 
 // from GeeksforGeeks.com
 void printStack(stack<char> s)
@@ -20,7 +23,7 @@ void printStack(stack<char> s)
     // Recursively call the function PrintStack
     printStack(s);
     // Print the stack element starting from the bottom
-    cout << x << " ";
+    file << x << " ";
     // Push the same element onto the stack to preserve the order
     s.push(x);
 }
@@ -36,7 +39,7 @@ void printSolveStack(stack<float> s)
     // Recursively call the function PrintStack
     printSolveStack(s);
     // Print the stack element starting from the bottom
-    cout << x << " ";
+    file << x << " ";
     // Push the same element onto the stack to preserve the order
     s.push(x);
 }
@@ -157,23 +160,23 @@ string infixToPostfix(string infix)
         {
             postfix += elem;
         }
-        cout << "~Curent elem: " << elem << " ~Current postfix: " << postfix << " ~Current Stack: ";
+        file << "~Curent elem: " << elem << " ~Current postfix: " << postfix << " ~Current Stack: ";
         printStack(stack);
-        cout << "\n";
+        file << "\n";
         i++;
     }
     while (!stack.empty())
     {
         postfix += stack.top();
         stack.pop();
-        cout << "~Current postfix: " + postfix + " ~Current stack: ";
+        file << "~Current postfix: " + postfix + " ~Current stack: ";
         printStack(stack);
-        cout << "\n";
+        file << "\n";
     }
     return postfix;
 }
 
-void evaluate(string postfix)
+float evaluate(string postfix)
 {
     stack<float> solveStack;
     char elem;
@@ -219,22 +222,25 @@ void evaluate(string postfix)
             solveStack.push(elem - '0');
             break;
         }
-        cout << "~Current elem: " << elem << "  ~Current stack: ";
+        file << "~Current elem: " << elem << "  ~Current stack: ";
         printSolveStack(solveStack);
-        cout << "\n";
+        file << "\n";
     }
     ans = solveStack.top();
-    cout << "Answer: " << ans;
+    return ans;
 }
 
 int main()
 {
     string infix, postfix;
+    float ans;
     cout << "Welocome Infix to Postfix Evaluator";
     cout << "\nSupported operations: +, -, *, /, ()\n";
     cout << "Enter the infix expression: ";
     getline(cin, infix);
     postfix = infixToPostfix(infix);
     cout << "The postfix is: " << postfix << "\n";
-    evaluate(postfix);
+    ans = evaluate(postfix);
+    cout << "Answer: " << ans;
+    file.close();
 }
